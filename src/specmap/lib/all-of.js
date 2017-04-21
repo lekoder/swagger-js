@@ -18,7 +18,7 @@ export default {
     let alreadyAddError = false
 
     return [specmap.replace(parent, {})].concat(val.map((toMerge, index) => {
-      if (!specmap.isObject(toMerge)) {
+      if (!specmap.isObject(toMerge) && !specmap.isObject(toMerge.properties)) {
         if (alreadyAddError) {
           return null
         }
@@ -28,8 +28,8 @@ export default {
         err.fullPath = fullPath // This is an array
         return err
       }
-
-      return specmap.mergeDeep(parent, toMerge)
+      
+      return specmap.mergeDeep(parent, {properties: toMerge.properties})
     }))
   }
 }
